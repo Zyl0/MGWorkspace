@@ -12,6 +12,7 @@ VPATH += AppTinyMesh
 
 SOURCES += \
     AppTinyMesh/Source/box.cpp \
+    AppTinyMesh/Source/distancefieldhierarchy.cpp \
     AppTinyMesh/Source/evector.cpp \
     AppTinyMesh/Source/implicits.cpp \
     AppTinyMesh/Source/main.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
     AppTinyMesh/Source/mesh.cpp \
     AppTinyMesh/Source/meshcolor.cpp \
     AppTinyMesh/Source/mesh-widget.cpp \
+    AppTinyMesh/Source/primitives.cpp \
     AppTinyMesh/Source/qtemainwindow.cpp \
     AppTinyMesh/Source/ray.cpp \
     AppTinyMesh/Source/shader-api.cpp \
@@ -28,11 +30,14 @@ HEADERS += \
     AppTinyMesh/Include/box.h \
     AppTinyMesh/Include/camera.h \
     AppTinyMesh/Include/color.h \
+    AppTinyMesh/Include/distancefieldhierarchy.h \
     AppTinyMesh/Include/implicits.h \
     AppTinyMesh/Include/mathematics.h \
     AppTinyMesh/Include/mesh.h \
     AppTinyMesh/Include/meshcolor.h \
+    AppTinyMesh/Include/primitives.h \
     AppTinyMesh/Include/qte.h \
+    AppTinyMesh/Include/ray.h \
     AppTinyMesh/Include/realtime.h \
     AppTinyMesh/Include/shader-api.h \
 
