@@ -86,7 +86,7 @@ void AnalyticScalarField::Polygonize(int n, Mesh& g, const Box& box, const doubl
   }
 
   // Compute straddling edges inside lower Oxy plane
-#pragma omp parallel for
+//#pragma omp parallel for
   for (int i = nax; i < nbx - 1; i++)
   {
     for (int j = nay; j < nby; j++)
@@ -102,7 +102,7 @@ void AnalyticScalarField::Polygonize(int n, Mesh& g, const Box& box, const doubl
     }
   }
 
-#pragma omp parallel for
+//#pragma omp parallel for
   for (int i = nax; i < nbx; i++)
   {
     for (int j = nay; j < nby - 1; j++)
@@ -120,7 +120,7 @@ void AnalyticScalarField::Polygonize(int n, Mesh& g, const Box& box, const doubl
   // Array for edge vertices
   int e[12];
 
-#pragma omp parallel for
+#//pragma omp parallel for
   // For all layers
   for (int k = naz; k < nbz; k++)
   {
@@ -134,7 +134,7 @@ void AnalyticScalarField::Polygonize(int n, Mesh& g, const Box& box, const doubl
       }
     }
 
-#pragma omp parallel for
+//#pragma omp parallel for
     // Compute straddling edges inside lower Oxy plane
     for (int i = nax; i < nbx - 1; i++)
     {
@@ -151,7 +151,7 @@ void AnalyticScalarField::Polygonize(int n, Mesh& g, const Box& box, const doubl
       }
     }
 
-#pragma omp parallel for
+//#pragma omp parallel for
     for (int i = nax; i < nbx; i++)
     {
       for (int j = nay; j < nby - 1; j++)
@@ -167,7 +167,7 @@ void AnalyticScalarField::Polygonize(int n, Mesh& g, const Box& box, const doubl
       }
     }
 
-#pragma omp parallel for
+//#pragma omp parallel for
     // Create vertical straddling edges
     for (int i = nax; i < nbx; i++)
     {
