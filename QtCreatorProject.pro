@@ -8,6 +8,9 @@ INCLUDEPATH += AppTinyMesh/Include
 INCLUDEPATH += $$(GLEW_DIR)
 INCLUDEPATH += $$(OUT_PWD)
 
+QMAKE_CXXFLAGS+= -fopenmp
+QMAKE_LFLAGS +=  -fopenmp
+
 VPATH += AppTinyMesh
 
 SOURCES += \
@@ -17,6 +20,7 @@ SOURCES += \
     AppTinyMesh/Source/implicits.cpp \
     AppTinyMesh/Source/main.cpp \
     AppTinyMesh/Source/camera.cpp \
+    AppTinyMesh/Source/mat.cpp \
     AppTinyMesh/Source/mesh.cpp \
     AppTinyMesh/Source/meshcolor.cpp \
     AppTinyMesh/Source/mesh-widget.cpp \
@@ -25,6 +29,7 @@ SOURCES += \
     AppTinyMesh/Source/ray.cpp \
     AppTinyMesh/Source/shader-api.cpp \
     AppTinyMesh/Source/triangle.cpp \
+    AppTinyMesh/Source/vec.cpp
 
 HEADERS += \
     AppTinyMesh/Include/box.h \
@@ -32,6 +37,7 @@ HEADERS += \
     AppTinyMesh/Include/color.h \
     AppTinyMesh/Include/distancefieldhierarchy.h \
     AppTinyMesh/Include/implicits.h \
+    AppTinyMesh/Include/mat.h \
     AppTinyMesh/Include/mathematics.h \
     AppTinyMesh/Include/mesh.h \
     AppTinyMesh/Include/meshcolor.h \
@@ -40,6 +46,7 @@ HEADERS += \
     AppTinyMesh/Include/ray.h \
     AppTinyMesh/Include/realtime.h \
     AppTinyMesh/Include/shader-api.h \
+    AppTinyMesh/Include/vec.h
 
 FORMS += \
     AppTinyMesh/UI/interface.ui
@@ -54,6 +61,7 @@ unix:!macx {
 macx {
     LIBS += -lGLEW -lGL -lGLU
 }
+
 
 # Copy shader files
 # $$shell_quote puts quote around the path, to make it work if it contains space or other special characters.

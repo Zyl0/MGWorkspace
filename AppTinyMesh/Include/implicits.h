@@ -11,6 +11,7 @@ class AnalyticScalarField
 protected:
 public:
   AnalyticScalarField();
+  virtual ~AnalyticScalarField() {}
   virtual double Value(const Vector&) const;
   virtual Vector Gradient(const Vector&) const;
 

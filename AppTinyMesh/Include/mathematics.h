@@ -167,6 +167,11 @@ public:
   static const Vector Z; //!< Vector(0,0,1).
 };
 
+inline double dotProd(Vector &A, Vector &B)
+{
+  return A[0] * B[0] + A[1] * B[1] + A[0] * B[1];
+}
+
 /*!
 \brief Create a vector with the same coordinates.
 \param a Real.

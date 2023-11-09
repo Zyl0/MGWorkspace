@@ -4,6 +4,7 @@
 #include <QtWidgets/qmainwindow.h>
 #include "realtime.h"
 #include "meshcolor.h"
+#include "implicits.h"
 
 QT_BEGIN_NAMESPACE
 	namespace Ui { class Assets; }
@@ -27,8 +28,19 @@ public:
 public slots:
   void editingSceneLeft(const Ray&);
   void editingSceneRight(const Ray&);
+  void editingErosion(const Ray&);
   void BoxMeshExample();
   void SphereImplicitExample();
+  void SpherePrimitive();
+  void BoxPrimitive();
+  void CapsulePrimitive();
+  void TorePrimitive();
+  void Shape1();
+  void rollbackTree();
+  void TransformTree();
+  void Refresh();
+  void SaveMesh();
+  void MeshifyImplicit(AnalyticScalarField* implicit);
   void ResetCamera();
   void UpdateMaterial();
 };
