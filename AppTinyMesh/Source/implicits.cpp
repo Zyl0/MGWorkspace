@@ -120,7 +120,7 @@ void AnalyticScalarField::Polygonize(int n, Mesh& g, const Box& box, const doubl
   // Array for edge vertices
   int e[12];
 
-#//pragma omp parallel for
+//#pragma omp parallel for
   // For all layers
   for (int k = naz; k < nbz; k++)
   {

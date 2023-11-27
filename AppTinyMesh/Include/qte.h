@@ -30,6 +30,9 @@ public slots:
   void editingSceneRight(const Ray&);
   void editingErosion(const Ray&);
   void BoxMeshExample();
+  void BezierSurfacePreview();
+  void TwistSDF();
+  void RevolutionSurfacePreview();
   void SphereImplicitExample();
   void SpherePrimitive();
   void BoxPrimitive();

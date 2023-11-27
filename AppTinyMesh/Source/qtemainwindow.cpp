@@ -5,6 +5,9 @@
 #include "distancefieldhierarchy.h"
 #include "primitives.h"
 
+#include "bezier.h"
+#include "deformations.h"
+
 #include "mat.h"
 
 #include <vector>
@@ -190,6 +193,9 @@ void MainWindow::CreateActions()
   connect(uiw->wireframe, SIGNAL(clicked()), this, SLOT(UpdateMaterial()));
   connect(uiw->radioShadingButton_1, SIGNAL(clicked()), this, SLOT(UpdateMaterial()));
   connect(uiw->radioShadingButton_2, SIGNAL(clicked()), this, SLOT(UpdateMaterial()));
+  connect(uiw->BezierMesh, SIGNAL(clicked()), this, SLOT(BezierSurfacePreview()));
+  connect(uiw->RevolutionMesh, SIGNAL(clicked()), this, SLOT(RevolutionSurfacePreview()));
+  connect(uiw->TwistSDF, SIGNAL(clicked()), this, SLOT(TwistSDF()));
   connect(uiw->SpawnPrimitiveSphere, SIGNAL(clicked()), this, SLOT(SpherePrimitive()));
   connect(uiw->BoxPrimitiveSphere, SIGNAL(clicked()), this, SLOT(BoxPrimitive()));
   connect(uiw->CapsulePrimitiveSphere, SIGNAL(clicked()), this, SLOT(CapsulePrimitive()));
@@ -376,6 +382,124 @@ void MainWindow::BoxMeshExample()
   meshColor = MeshColor(boxMesh, cols, boxMesh.VertexIndexes());
   UpdateGeometry();
   deleteTree();
+}
+
+void MainWindow::BezierSurfacePreview()
+{
+  //  size_t n = 3, m = 3;
+  //  std::vector<Vector> controlPoints =
+  //  {
+  //    Vector(-1,-1, 1), Vector( 0,-1,-1), Vector( 1,-1, 1),
+  //    Vector(-1, 0,-1), Vector( 0, 0, 5), Vector( 1, 0,-1),
+  //    Vector(-1, 1, 1), Vector( 0, 1,-1), Vector( 1, 1, 1)
+  //  };
+  size_t n = 4, m = 3;
+  std::vector<Vector> controlPoints = 
+  {
+    Vector(-1,-1,-1), Vector( 0,-1,-1), Vector( 1,-1, 1), Vector(-1,-1, 1),
+    Vector(-1, 0,-1), Vector( 0, 0, 0), Vector( 1, 0, 0), Vector(-1, 0, 0.5),
+    Vector(-1, 1, 1), Vector( 0, 1,-2), Vector( 1, 1, 0), Vector( 1, 1, 0)
+  };
+  BezierSurface b(n, m, controlPoints);
+
+  std::chrono::time_point<std::chrono::steady_clock, std::chrono::duration<float>> sp;
+  std::chrono::time_point<std::chrono::steady_clock, std::chrono::duration<float>> ep;
+  
+  sp = std::chrono::steady_clock::now();
+  Mesh BezierMesh = b.Polygonize(100,100);
+  ep = std::chrono::steady_clock::now();
+  std::cout << "Meshify (by sampling bezier surface) took " << (ep - sp).count()*1000. << " ms" << std::endl;
+
+  BezierMesh.SaveObj("./BezierSurface2.obj", "bPlan");
+
+  std::vector<Color> cols;
+  cols.resize(BezierMesh.Vertexes());
+  for (size_t i = 0; i < cols.size(); i++)
+    cols[i] = Color(0.8, 0.8, 0.8);
+
+  meshColor = MeshColor(BezierMesh, cols, BezierMesh.VertexIndexes());
+  UpdateGeometry();
+}
+
+void MainWindow::TwistSDF()
+{
+  //if (!implicitTree)
+  //  return;
+  //std::chrono::time_point<std::chrono::steady_clock, std::chrono::duration<float>> sp;
+  //std::chrono::time_point<std::chrono::steady_clock, std::chrono::duration<float>> ep;
+
+  //Mesh implicitMesh;
+  //sp = std::chrono::steady_clock::now();
+  //implicitTree->Polygonize(
+  //    uiw->MCResInput->text().toDouble(),
+  //    implicitMesh,
+  //    Box(Vector(uiw->MCAXInput->text().toDouble(), uiw->MCAYInput->text().toDouble(), uiw->MCAZInput->text().toDouble()), Vector(uiw->MCBXInput->text().toDouble(), uiw->MCBYInput->text().toDouble(), uiw->MCBZInput->text().toDouble()))
+  //    );
+  //ep = std::chrono::steady_clock::now();
+  //std::cout << "Meshify (by marching cube) of " << uiw->MCResInput->text().toDouble() << " box count took " << (ep - sp).count()*1000. << " ms" << std::endl;
+
+
+    size_t n = 3, m = 3;
+    std::vector<Vector> controlPoints =
+    {
+      Vector(-1,-1, 1), Vector( 0,-1,-1), Vector( 1,-1, 1),
+      Vector(-1, 0,-1), Vector( 0, 0, 5), Vector( 1, 0,-1),
+      Vector(-1, 1, 1), Vector( 0, 1,-1), Vector( 1, 1, 1)
+    };
+    BezierSurface b(n, m, controlPoints);
+
+    std::chrono::time_point<std::chrono::steady_clock, std::chrono::duration<float>> sp;
+    std::chrono::time_point<std::chrono::steady_clock, std::chrono::duration<float>> ep;
+
+    sp = std::chrono::steady_clock::now();
+    Mesh BezierMesh = b.Polygonize(100,100);
+    ep = std::chrono::steady_clock::now();
+
+  Twist twist = Twist(8, Vector(0,0,1));
+  Mesh mesh = twist.WarpMesh(BezierMesh);
+
+  mesh.SaveObj("./BezierTwistF8.obj", "rSurface");
+
+  std::vector<Color> cols;
+  cols.resize(mesh.Vertexes());
+  for (size_t i = 0; i < cols.size(); i++)
+    cols[i] = Color(0.8, 0.8, 0.8);
+
+  meshColor = MeshColor(mesh, cols, mesh.VertexIndexes());
+  UpdateGeometry();
+}
+
+void MainWindow::RevolutionSurfacePreview()
+{
+  //std::vector<Vector> controlPoints =
+  //{
+  //  Vector(0, 1.5, -1), Vector( 0, 1.25, 0), Vector( 0, 0.125, 1), Vector( 0, 0.125, 1.25), Vector( 0, 0.5, 1.5)
+  //};
+
+  std::vector<Vector> controlPoints =
+  {
+    Vector(0, 0.01, -1), Vector(0, 1, -1), Vector( 0, 1.25, -1), Vector( 0, 1.5, -0.5), Vector( 0, 0.125, 1.25), Vector( 0, 0.125, 1.25), Vector( 0, 0.125, 1.25), Vector( 0, 0.25, 1.5), Vector( 0, 1.5, 1.7), Vector( 0, 0, 2)
+  };
+
+  Revolution revolutionSurvace(Vector(0,0,-1), Vector(0,0,1.5),  controlPoints);
+
+  std::chrono::time_point<std::chrono::steady_clock, std::chrono::duration<float>> sp;
+  std::chrono::time_point<std::chrono::steady_clock, std::chrono::duration<float>> ep;
+  
+  sp = std::chrono::steady_clock::now();
+  Mesh revolutionMesh = revolutionSurvace.Polygonize(100,100);
+  ep = std::chrono::steady_clock::now();
+  std::cout << "Meshify (by sampling revolution surface) took " << (ep - sp).count()*1000. << " ms" << std::endl;
+
+  revolutionMesh.SaveObj("./RevolutionSurface2.obj", "rSurface");
+
+  std::vector<Color> cols;
+  cols.resize(revolutionMesh.Vertexes());
+  for (size_t i = 0; i < cols.size(); i++)
+    cols[i] = Color(0.8, 0.8, 0.8);
+
+  meshColor = MeshColor(revolutionMesh, cols, revolutionMesh.VertexIndexes());
+  UpdateGeometry();
 }
 
 void MainWindow::SphereImplicitExample()

@@ -118,6 +118,8 @@ public:
 
   void SmoothNormals();
 
+  void setVertex(int, Vector);
+
   // Constructors from core classes
   explicit Mesh(const Box&);
 
@@ -214,6 +216,11 @@ inline int Mesh::Vertexes() const
 inline Vector Mesh::Normal(int i) const
 {
   return normals[i];
+}
+
+inline void Mesh::setVertex(int i , Vector v)
+{
+  vertices[i] = v;
 }
 
 /*!

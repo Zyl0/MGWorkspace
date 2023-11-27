@@ -106,6 +106,8 @@ Transform RotationZ( const double angle );
 //! renvoie la matrice representation une rotation de angle degree autour de l'axe axis.
 Transform Rotation( const Vector& axis, const double angle );
 
+Transform RotationRad( const Vector& axis, const double angle );
+
 //! renvoie la matrice de rotation entre u et v.
 Transform Rotation( const Vector&u, const Vector& v );
 

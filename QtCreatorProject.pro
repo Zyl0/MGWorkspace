@@ -14,7 +14,9 @@ QMAKE_LFLAGS +=  -fopenmp
 VPATH += AppTinyMesh
 
 SOURCES += \
+    AppTinyMesh/Source/bezier.cpp \
     AppTinyMesh/Source/box.cpp \
+    AppTinyMesh/Source/deformations.cpp \
     AppTinyMesh/Source/distancefieldhierarchy.cpp \
     AppTinyMesh/Source/evector.cpp \
     AppTinyMesh/Source/implicits.cpp \
@@ -32,9 +34,11 @@ SOURCES += \
     AppTinyMesh/Source/vec.cpp
 
 HEADERS += \
+    AppTinyMesh/Include/bezier.h \
     AppTinyMesh/Include/box.h \
     AppTinyMesh/Include/camera.h \
     AppTinyMesh/Include/color.h \
+    AppTinyMesh/Include/deformations.h \
     AppTinyMesh/Include/distancefieldhierarchy.h \
     AppTinyMesh/Include/implicits.h \
     AppTinyMesh/Include/mat.h \

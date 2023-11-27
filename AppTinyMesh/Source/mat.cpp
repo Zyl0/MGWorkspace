@@ -290,6 +290,32 @@ Transform Rotation( const Vector& axis, const double angle )
 }
 
 
+Transform RotationRad( const Vector& axis, const double angle )
+{
+    Vector a = axis;
+    Normalize(a);
+    double s= sinf(angle);
+    double c= cosf(angle);
+
+    return Transform(
+        a[0] * a[0] + (1 - a[0] * a[0] ) * c,
+        a[0] * a[1] * (1 - c  ) - a[2] * s,
+        a[0] * a[2] * (1 - c  ) + a[1] * s,
+        0,
+        
+        a[0] * a[1] * (1 - c  ) + a[2] * s,
+        a[1] * a[1] + (1 - a[1] * a[1] ) * c,
+        a[1] * a[2] * (1 - c  ) - a[0] * s,
+        0,
+        
+        a[0] * a[2] * (1 - c  ) - a[1] * s,
+        a[1] * a[2] * (1 - c  ) + a[0] * s,
+        a[2] * a[2] + (1 - a[2] * a[2] ) * c,
+        0,
+        
+        0, 0, 0, 1);
+}
+
 Transform Rotation( const Vector& u, const Vector& v )
 {
     Vector a = u;
